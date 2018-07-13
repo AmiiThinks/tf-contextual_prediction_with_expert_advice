@@ -39,7 +39,11 @@ def rrm_loss(model, contexts, action_utilities, ignore_negative_regrets=True):
     return tf.reduce_mean(regret_diffs) / 2.0
 
 
-def rrm_grad(model, contexts, action_utilities):
+def rrm_grad(model, contexts, action_utilities, ignore_negative_regrets=True):
     with tf.GradientTape() as tape:
-        loss_value = rrm_loss(model, contexts, action_utilities)
+        loss_value = rrm_loss(
+            model,
+            contexts,
+            action_utilities,
+            ignore_negative_regrets=ignore_negative_regrets)
     return zip(tape.gradient(loss_value, model.variables), model.variables)
