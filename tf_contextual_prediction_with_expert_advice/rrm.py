@@ -15,8 +15,7 @@ def rrm_utilities(model, contexts, action_utilities):
     return utility(rm_policy(model(contexts)), action_utilities)
 
 
-def rrm_loss(model, contexts, action_utilities, ignore_negative_regrets=True):
-    regrets = model(contexts)
+def rrm_loss(regrets, action_utilities, ignore_negative_regrets=True):
     num_actions = regrets.shape[1].value
     policy = rm_policy(regrets)
 
@@ -42,8 +41,7 @@ def rrm_loss(model, contexts, action_utilities, ignore_negative_regrets=True):
 def rrm_grad(model, contexts, action_utilities, ignore_negative_regrets=True):
     with tf.GradientTape() as tape:
         loss_value = rrm_loss(
-            model,
-            contexts,
+            model(contexts),
             action_utilities,
             ignore_negative_regrets=ignore_negative_regrets)
     return zip(tape.gradient(loss_value, model.variables), model.variables)
