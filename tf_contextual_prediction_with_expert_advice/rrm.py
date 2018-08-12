@@ -16,6 +16,7 @@ def rrm_utilities(model, contexts, action_utilities):
 
 
 def rrm_loss(regrets, action_utilities, ignore_negative_regrets=True):
+    regrets = tf.convert_to_tensor(regrets)
     num_actions = regrets.shape[1].value
     policy = rm_policy(regrets)
 
@@ -35,7 +36,7 @@ def rrm_loss(regrets, action_utilities, ignore_negative_regrets=True):
         regret_diffs = tf.where(is_substantive_regret_diff, regret_diffs,
                                 tf.zeros_like(inst_regret))
 
-    return tf.reduce_mean(regret_diffs) / 2.0
+    return tf.reduce_mean(tf.reduce_sum(regret_diffs, axis=1)) / 2.0
 
 
 def rrm_grad(model, contexts, action_utilities, ignore_negative_regrets=True):

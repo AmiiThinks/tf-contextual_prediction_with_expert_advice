@@ -83,7 +83,8 @@ class ContextualBanditRrmTest(tf.test.TestCase):
             np.random.uniform(
                 size=[num_contexts, num_dimensions]).astype('float32'))
 
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.07)
+        optimizer = tf.train.GradientDescentOptimizer(
+            learning_rate=0.07 / num_actions)
         model = tf.keras.Sequential([
             DenseLayer(
                 num_actions,
@@ -121,7 +122,8 @@ class ContextualBanditRrmTest(tf.test.TestCase):
                 kernel_initializer=tf.zeros_initializer,
                 use_bias=False)
         ])
-        opt = tf.train.GradientDescentOptimizer(learning_rate=0.1)
+        opt = tf.train.GradientDescentOptimizer(
+            learning_rate=0.1 / num_actions)
 
         p2_model = tf.keras.Sequential([
             DenseLayer(
@@ -169,7 +171,8 @@ class ContextualBanditRrmTest(tf.test.TestCase):
                 kernel_initializer=tf.zeros_initializer,
                 use_bias=False)
         ])
-        opt = tf.train.GradientDescentOptimizer(learning_rate=0.01)
+        opt = tf.train.GradientDescentOptimizer(
+            learning_rate=0.01 / num_actions)
 
         p2_model = tf.keras.Sequential([
             DenseLayer(
@@ -234,7 +237,8 @@ class ContextualBanditRrmTest(tf.test.TestCase):
                 kernel_initializer=tf.zeros_initializer,
                 use_bias=False)
         ])
-        opt = tf.train.GradientDescentOptimizer(learning_rate=0.001)
+        opt = tf.train.GradientDescentOptimizer(
+            learning_rate=0.001 / num_actions)
 
         def br_to_p1(contexts):
             return br(
