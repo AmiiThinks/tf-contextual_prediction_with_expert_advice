@@ -57,9 +57,9 @@ class RrmLearner(RmPolicyActivation, PolicyModel):
         self.ignore_negative_regrets = ignore_negative_regrets
 
     def loss(self, utility, inputs=None, predictions=None, policy=None):
+        if predictions is None:
+            predictions = self.model(inputs)
         if policy is None:
-            if predictions is None:
-                predictions = self.model(inputs)
             return rrm_loss(
                 predictions,
                 utility,
