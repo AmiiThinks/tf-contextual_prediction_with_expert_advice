@@ -1,5 +1,5 @@
 import tensorflow as tf
-from .__init__ import utility
+from tf_contextual_prediction_with_expert_advice import utility
 
 
 def rm_policy(regrets):
