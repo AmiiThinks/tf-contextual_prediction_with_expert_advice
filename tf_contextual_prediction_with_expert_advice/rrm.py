@@ -1,14 +1,5 @@
 import tensorflow as tf
-from tf_contextual_prediction_with_expert_advice import utility
-
-
-def rm_policy(regrets):
-    num_actions = regrets.shape[1].value
-    qregrets = tf.maximum(regrets, 0.0)
-    z = tf.tile(
-        tf.reduce_sum(qregrets, axis=1, keepdims=True), [1, num_actions])
-    uniform_strat = tf.fill(tf.shape(qregrets), 1.0 / num_actions)
-    return tf.where(tf.greater(z, 0.0), qregrets / z, uniform_strat)
+from tf_contextual_prediction_with_expert_advice import utility, rm_policy
 
 
 def rrm_utilities(model, contexts, action_utilities):
