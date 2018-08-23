@@ -65,7 +65,7 @@ class RrmLearner(Learner):
 
     def loss(self, utility, inputs=None, predictions=None, policy=None):
         if predictions is None:
-            predictions = self.pre_activations(input)
+            predictions = self.pre_activations(inputs)
         if policy is None:
             return rrm_loss(
                 predictions,

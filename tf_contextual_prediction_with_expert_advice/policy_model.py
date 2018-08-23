@@ -3,8 +3,8 @@ from tf_contextual_prediction_with_expert_advice import norm_exp, rm_policy
 
 
 class PolicyModelMixin(object):
-    def pre_activations(self, input):
-        return self.model(input)
+    def pre_activations(self, inputs):
+        return self.model(inputs)
 
     def policy(self, inputs):
         return self.policy_activation(self.pre_activations(inputs))

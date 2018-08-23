@@ -7,11 +7,11 @@ class Learner(PolicyModelMixin):
         self.policy_model = policy_model
         self.optimizer = optimizer
 
-    def pre_activations(self, input):
-        return self.policy_model.pre_activations(input)
+    def pre_activations(self, inputs):
+        return self.policy_model.pre_activations(inputs)
 
-    def policy(self, input):
-        return self.policy_model.policy(input)
+    def policy(self, inputs):
+        return self.policy_model.policy(inputs)
 
     def loss(self, utility, inputs=None, predictions=None, policy=None):
         raise RuntimeError('Unimplemented')
