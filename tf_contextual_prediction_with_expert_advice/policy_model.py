@@ -1,11 +1,13 @@
 import tensorflow as tf
-from tf_contextual_prediction_with_expert_advice import norm_exp
-from tf_contextual_prediction_with_expert_advice.rrm import rm_policy
+from tf_contextual_prediction_with_expert_advice import norm_exp, rm_policy
 
 
 class PolicyModelMixin(object):
+    def pre_activations(self, input):
+        return self.model(input)
+
     def policy(self, inputs):
-        return self.policy_activation(self.model(inputs))
+        return self.policy_activation(self.pre_activations(inputs))
 
     def policy_activation(self, pre_activations):
         return pre_activations

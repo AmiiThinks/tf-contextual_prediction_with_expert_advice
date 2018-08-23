@@ -1,8 +1,11 @@
 import tensorflow as tf
-from tf_contextual_prediction_with_expert_advice import utility, rm_policy
+from tf_contextual_prediction_with_expert_advice import \
+    utility, \
+    rm_policy
 from tf_contextual_prediction_with_expert_advice.policy_model import \
     PolicyModel, \
     RmPolicyActivation
+from tf_contextual_prediction_with_expert_advice.learner import Learner
 
 
 def rrm_utilities(model, contexts, action_utilities):
@@ -51,14 +54,18 @@ def rrm_grad(model, contexts, action_utilities, ignore_negative_regrets=True):
     return zip(tape.gradient(loss_value, model.variables), model.variables)
 
 
-class RrmLearner(RmPolicyActivation, PolicyModel):
+class RrmPolicyModel(RmPolicyActivation, PolicyModel):
+    pass
+
+
+class RrmLearner(Learner):
     def __init__(self, *args, ignore_negative_regrets=False, **kwargs):
         super(RrmLearner, self).__init__(*args, **kwargs)
         self.ignore_negative_regrets = ignore_negative_regrets
 
     def loss(self, utility, inputs=None, predictions=None, policy=None):
         if predictions is None:
-            predictions = self.model(inputs)
+            predictions = self.pre_activations(input)
         if policy is None:
             return rrm_loss(
                 predictions,
