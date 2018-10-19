@@ -149,7 +149,7 @@ class ContextualBanditRrmTest(tf.test.TestCase):
         for _ in range(100):
             update_p1()
             update_p2()
-        self.assertAllClose(7.86478, u())
+        self.assertAllClose(7.78024, u())
 
     def test_symmetric_independent_predictors_for_each_action_random_features(
             self):
@@ -214,9 +214,9 @@ class ContextualBanditRrmTest(tf.test.TestCase):
         p1_policy = rm_policy(p1_model(contexts))
         p2_policy = rm_policy(p2_model(contexts))
 
-        self.assertAllClose(-224.9557, u(p1_policy, br_to_p1()))
-        self.assertAllClose(93.08359, u(br_to_p2(), p2_policy))
-        self.assertAllClose(-51.82067, u(p1_policy, p2_policy))
+        self.assertAllClose(-255.36905, u(p1_policy, br_to_p1()))
+        self.assertAllClose(143.24355, u(br_to_p2(), p2_policy))
+        self.assertAllClose(-85.37776, u(p1_policy, p2_policy))
 
     def test_br_independent_predictors_for_each_action_random_features(self):
         num_dimensions = 80
