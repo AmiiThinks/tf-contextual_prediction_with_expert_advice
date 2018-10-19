@@ -30,7 +30,7 @@ def indmax(tensor, axis=0, tolerance=1e-15):
         axis=axis)
 
 
-def br(action_utilities):
+def greedy_policy(action_utilities):
     return indmax(action_utilities, axis=1)
 
 

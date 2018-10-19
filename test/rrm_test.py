@@ -8,7 +8,7 @@ from tf_contextual_prediction_with_expert_advice.rrm import \
     rm_policy, \
     rrm_utilities
 from tf_contextual_prediction_with_expert_advice import \
-    br, \
+    greedy_policy, \
     behavioral_to_sequence_form_strat
 from tensorflow.keras.layers import Dense as DenseLayer
 import numpy as np
@@ -192,12 +192,12 @@ class ContextualBanditRrmTest(tf.test.TestCase):
             return game_utility(p1, p2, utility_fn)
 
         def br_to_p1():
-            return br(
+            return greedy_policy(
                 action_utilities(
                     rm_policy(p1_model(contexts)), -tf.transpose(utility_fn)))
 
         def br_to_p2():
-            return br(
+            return greedy_policy(
                 action_utilities(rm_policy(p2_model(contexts)), utility_fn))
 
         initial_p1_policy = rm_policy(p1_model(contexts))
@@ -241,7 +241,7 @@ class ContextualBanditRrmTest(tf.test.TestCase):
             learning_rate=0.001 / num_actions)
 
         def br_to_p1(contexts):
-            return br(
+            return greedy_policy(
                 action_utilities(
                     rm_policy(model(contexts)), -tf.transpose(utility_fn)))
 
