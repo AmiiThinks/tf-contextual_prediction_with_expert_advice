@@ -6,15 +6,11 @@ def utility(policy, action_utilities):
 
 
 def normalized(v, axis=0):
-    v = tf.convert_to_tensor(v)
-    n = tf.shape(v)[axis]
-
-    tile_dims = [tf.ones([], dtype=tf.int32)] * len(v.shape)
-    tile_dims[axis] = n
-
-    z = tf.tile(tf.reduce_sum(v, axis=axis, keepdims=True), tile_dims)
-    ur = tf.fill(v.shape, 1.0 / tf.cast(n, tf.float32))
-    return tf.where(tf.greater(z, 0.0), v / z, ur)
+    z = tf.reduce_sum(v, axis=axis, keepdims=True)
+    zero_z = tf.cast(tf.equal(z, tf.zeros_like(z)), tf.float32)
+    v = v + zero_z
+    z = z + tf.cast(tf.shape(v)[axis], tf.float32) * zero_z
+    return v / z
 
 
 def l1_projection_to_simplex(v, axis=0):
