@@ -37,12 +37,12 @@ def game_utility(p1, p2, utility_fn):
 
 class ContextualBanditRrmTest(tf.test.TestCase):
     def setUp(self):
-        tf.set_random_seed(42)
+        tf.random.set_seed(42)
         np.random.seed(42)
 
     def test_static_opponent_independent_predictors_for_each_action_tabular(
             self):
-        tf.set_random_seed(42)
+        tf.random.set_seed(42)
         np.random.seed(42)
 
         num_contexts = 10
@@ -53,7 +53,7 @@ class ContextualBanditRrmTest(tf.test.TestCase):
                 size=[num_contexts, num_actions]).astype('float32'))
         contexts = tf.eye(num_contexts)
 
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1)
+        optimizer = tf.keras.optimizers.SGD(learning_rate=0.1)
         model = tf.keras.Sequential([
             DenseLayer(
                 num_actions,
@@ -83,7 +83,7 @@ class ContextualBanditRrmTest(tf.test.TestCase):
             np.random.uniform(
                 size=[num_contexts, num_dimensions]).astype('float32'))
 
-        optimizer = tf.train.GradientDescentOptimizer(
+        optimizer = tf.keras.optimizers.SGD(
             learning_rate=0.07 / num_actions)
         model = tf.keras.Sequential([
             DenseLayer(
@@ -122,7 +122,7 @@ class ContextualBanditRrmTest(tf.test.TestCase):
                 kernel_initializer=tf.zeros_initializer,
                 use_bias=False)
         ])
-        opt = tf.train.GradientDescentOptimizer(
+        opt = tf.keras.optimizers.SGD(
             learning_rate=0.1 / num_actions)
 
         p2_model = tf.keras.Sequential([
@@ -171,7 +171,7 @@ class ContextualBanditRrmTest(tf.test.TestCase):
                 kernel_initializer=tf.zeros_initializer,
                 use_bias=False)
         ])
-        opt = tf.train.GradientDescentOptimizer(
+        opt = tf.keras.optimizers.SGD(
             learning_rate=0.01 / num_actions)
 
         p2_model = tf.keras.Sequential([
@@ -214,9 +214,9 @@ class ContextualBanditRrmTest(tf.test.TestCase):
         p1_policy = rm_policy(p1_model(contexts))
         p2_policy = rm_policy(p2_model(contexts))
 
-        self.assertAllClose(-255.36905, u(p1_policy, br_to_p1()))
-        self.assertAllClose(143.24355, u(br_to_p2(), p2_policy))
-        self.assertAllClose(-85.37776, u(p1_policy, p2_policy))
+        self.assertAllClose(-341.93103, u(p1_policy, br_to_p1()))
+        self.assertAllClose(203.34860, u(br_to_p2(), p2_policy))
+        self.assertAllClose(-98.628975, u(p1_policy, p2_policy))
 
     def test_br_independent_predictors_for_each_action_random_features(self):
         num_dimensions = 80
@@ -237,7 +237,7 @@ class ContextualBanditRrmTest(tf.test.TestCase):
                 kernel_initializer=tf.zeros_initializer,
                 use_bias=False)
         ])
-        opt = tf.train.GradientDescentOptimizer(
+        opt = tf.keras.optimizers.SGD(
             learning_rate=0.001 / num_actions)
 
         def br_to_p1(contexts):

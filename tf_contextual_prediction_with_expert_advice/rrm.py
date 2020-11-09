@@ -16,7 +16,7 @@ def rrm_loss_given_policy(regrets,
                           policy,
                           action_utilities,
                           ignore_negative_regrets=True):
-    num_actions = regrets.shape[1].value
+    num_actions = regrets.shape[1]
     inst_regret = tf.stop_gradient(
         action_utilities - tf.tile(
             utility(policy, action_utilities),
